@@ -1,10 +1,13 @@
+#!/usr/bin/perl
 # htags.pl
-# HSPÇ©ÇÁÉ^ÉOÇíäèoÇ∑ÇÈÇæÇØ
+# HSP„Åã„Çâ„Çø„Ç∞„ÇíÊäΩÂá∫„Åô„Çã„Å†„Åë
 
 use strict;
 use warnings;
+use open IN  => ":encoding(cp932)";
+use open OUT  => ":utf8";
 
-my $version = "0.0.2";
+my $version = "0.0.3";
 my $tagfile = "tags";
 
 
@@ -29,9 +32,9 @@ open( OUT, ">> $tagfile" );
 print OUT <<HERE;
 !_TAG_FILE_FORMAT	2
 !_TAG_FILE_SORTED	1
-!_TAG_PROGRAM_AUTHOR	Gonbei	/gonbei0671\@hotmail.com/
+!_TAG_PROGRAM_AUTHOR	Gonbei	/gonbei0671\@hotmail.com/,	mjhd	/mjhd\@devlion/
 !_TAG_PROGRAM_NAME	htags	/Tag generator for HSP language. The free compiler and so on are available on this page > [http://www.onionsoft.net/hsp/] /
-!_TAG_PROGRAM_URL	http://hp.vector.co.jp/authors/VA038334/	//
+!_TAG_PROGRAM_URL	https://github.com/mjhd-devlion/vimhot.git	//
 !_TAG_PROGRAM_VERSION	$version	//
 HERE
 close( OUT );
@@ -56,7 +59,7 @@ close( OUT );
 
 
 
-# égópï˚ñ@Çï\é¶ÇµÇƒÇPÇï‘Ç∑
+# ‰ΩøÁî®ÊñπÊ≥ï„ÇíË°®Á§∫„Åó„Å¶Ôºë„ÇíËøî„Åô
 sub printUsage {
     print <<HERE;
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -68,36 +71,36 @@ htags [option] filename
 option:
 
     -R
-        ÉJÉåÉìÉgÉfÉBÉåÉNÉgÉäì‡ÇÃHSPÉtÉ@ÉCÉãÇëSÇƒí≤Ç◊ÇÈ
-        ÉTÉuÉfÉBÉåÉNÉgÉäÇÕñ≥óù
+        „Ç´„É¨„É≥„Éà„Éá„Ç£„É¨„ÇØ„Éà„É™ÂÜÖ„ÅÆHSP„Éï„Ç°„Ç§„É´„ÇíÂÖ®„Å¶Ë™ø„Åπ„Çã
+        „Çµ„Éñ„Éá„Ç£„É¨„ÇØ„Éà„É™„ÅØÁÑ°ÁêÜ
 
     -a
-        É^ÉOÇçXêVÇ≈ÇÕÇ»Ç≠Åhí«â¡ÅhÇ∑ÇÈ
+        „Çø„Ç∞„ÇíÊõ¥Êñ∞„Åß„ÅØ„Å™„Åè‚ÄùËøΩÂä†‚Äù„Åô„Çã
 
     -f
-        ïWèÄèoóÕÇ…TagExplorerå¸ÇØÇÃèÓïÒÇìfÇ≠
-        TagExplorerêÍóp
+        Ê®ôÊ∫ñÂá∫Âäõ„Å´TagExplorerÂêë„Åë„ÅÆÊÉÖÂ†±„ÇíÂêê„Åè
+        TagExplorerÂ∞ÇÁî®
 
-    è»ó™
-        É^ÉOÇçXêV
+    ÁúÅÁï•
+        „Çø„Ç∞„ÇíÊõ¥Êñ∞
 
 filename:
     
-    HSPÇÃÉtÉ@ÉCÉãÇéwíËÇ∑ÇÈ
-    ägí£éqÇ™.hspÇ≈ñ≥ÇØÇÍÇŒëSÇƒñ≥éãÇ∑ÇÈ
-    ï°êîéwíËÇ‡â¬
+    HSP„ÅÆ„Éï„Ç°„Ç§„É´„ÇíÊåáÂÆö„Åô„Çã
+    Êã°ÂºµÂ≠ê„Åå.hsp„ÅßÁÑ°„Åë„Çå„Å∞ÂÖ®„Å¶ÁÑ°Ë¶ñ„Åô„Çã
+    Ë§áÊï∞ÊåáÂÆö„ÇÇÂèØ
 
 HERE
     return 1;
 }
 
 
-# É^ÉOÇèëÇ´èoÇ∑
+# „Çø„Ç∞„ÇíÊõ∏„ÅçÂá∫„Åô
 sub writetags {
     my $infile = shift;
     my $tagfile = shift;
     my $useStdOut = shift;
-    open( IN, "<$infile" ) or print "ÉtÉ@ÉCÉãÇ™å©Ç¬Ç©ÇËÇ‹ÇπÇÒ: $infile\n" and return 0;
+    open( IN, "<$infile" ) or print "„Éï„Ç°„Ç§„É´„ÅåË¶ã„Å§„Åã„Çä„Åæ„Åõ„Çì: $infile\n" and return 0;
 
 
     open( OUT, ">> $tagfile" );
@@ -107,13 +110,15 @@ sub writetags {
     foreach my $line ( <IN> ) {
         $lineNumber++;
 
-        if( $line =~ /^\s*#(defcfunc|deffunc|cfunc|func|const|define|enum)[\t| ]*(.*)/ ) {
+        $line =~ s/[\r\n]+\z//;
+
+        if( $line =~ /^\s*#(defcfunc|deffunc|cfunc|func|const|define|enum|modfunc|modcfunc)[\t| ]*(.*)/ ) {
 
             my $tagtype = $1;
             my $tagname = $2;
 
             #get tag name
-            $tagname =~ s/\s*(global|ctype)\s//g;
+            $tagname =~ s/\s*(global|ctype|local)\s//g;
             $tagname =~ /^[a-zA-Z_][a-zA-Z0-9_]*/;
             $tagname = $&;
 
@@ -124,6 +129,7 @@ sub writetags {
             $exp =~ s/(\/|\\)/\\$1/g;
 
             my( $field, $f ) = $tagtype =~ /(defcfunc|deffunc)/ ? ( "function", "f" ) :
+                        $tagtype =~ /(modfunc|modcfunc)/ ? ( "function", "f" ) :
                         $tagtype =~ /(define)/ ? ( "macro", "m" ) :
                         $tagtype =~ /(const)/ ? ( "constant", "m" ) :
                         $tagtype =~ /(enum)/ ? ( "enum", "e" ) :
@@ -132,7 +138,7 @@ sub writetags {
             if( $useStdOut ) {
                 print "$tagname\t$infile\t/^$exp\/;\"\t$field\tline:$lineNumber\n"
             } else {
-                print OUT "$tagname\t\.\\$infile\t/^$exp\/\"\t$f\n";
+                print OUT "$tagname\t\./$infile\t/^$exp\/\"\t$f\n";
             }
 
         }
@@ -146,7 +152,7 @@ sub writetags {
             if( $useStdOut ) {
                 print "$tagname\t$infile\t/^\*$tagname\/;\"\t$field\tline:$lineNumber\n" if $useStdOut;
             } else {
-                print OUT "$tagname\t\.\\$infile\t/^\*$tagname\/;\"\t$f\n";
+                print OUT "$tagname\t\./$infile\t/^\*$tagname\/;\"\t$f\n";
             }
         }
     }

@@ -1,4 +1,7 @@
+#!/usr/bin/perl
+
 use strict;
+use open IN  => ":encoding(cp932)";
 
 my $numArg = @ARGV;
 if( $numArg <= 1 ) {        # no argument
@@ -22,18 +25,17 @@ sub printSyntax {
     my $synname = shift;
 
     my $preLine = "";
-    my $interval = 5;
+    my $interval = 10;
     my $nprinted = 0;
 
     while( <IN> ) {
-        s/\n//;
+        s/[\r\n]+\z//;
         if( $preLine =~ /%index/ ) {
             if( $nprinted % $interval == 0 ) {
                 print "\n";
                 print "syn keyword $synname ";
             }
-            print $_;
-            print " ";
+            print "$_ ";
             $nprinted++;
         }
         $preLine = $_ if $_ !~ /^$/;
@@ -56,11 +58,11 @@ hs2syn.pl syntax-name file-name ...
 
 syntax-name:
 
-    g—p‚·‚éƒVƒ“ƒ^ƒbƒNƒX‚ÌƒOƒ‹[ƒv–¼‚ğw’è‚·‚é
+    ä½¿ç”¨ã™ã‚‹ã‚·ãƒ³ã‚¿ãƒƒã‚¯ã‚¹ã®ã‚°ãƒ«ãƒ¼ãƒ—åã‚’æŒ‡å®šã™ã‚‹
 
 file-name:
 
-    ‘ÎÛ‚Ìhsƒtƒ@ƒCƒ‹‚ğw’è‚·‚é
+    å¯¾è±¡ã®hsãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã™ã‚‹
 
 HERE
 }

@@ -1,2 +1,2 @@
 MAIN:
-	bcc32 hscl.cpp
+	cl hscl.cpp

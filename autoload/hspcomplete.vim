@@ -11,7 +11,7 @@
 "  \(HSPを普通の場所にインストールしてない|バージョンが違う)方は
 "  どうぞ。
 "   
-      let s:hspath = 'C:\Program Files\hsp30\hsphelp'
+      let s:hspath = '~/.wine/drive_c/hsp34/hsphelp'
 
 
 " 無駄な改行コードを削除
@@ -69,7 +69,7 @@ func! s:TagInitialize()
     let prminfo = strpart( prminfo, 2, len( prminfo ) - 2 )
     let prminfo = matchstr( prminfo, '[^/]*' )
 
-    let name = substitute( prminfo, '\(#define\|#const\|#deffunc\|#defcfunc\|#enum\|global\|ctype\|#cfunc\|#func\)', '', 'g' )
+    let name = substitute( prminfo, '\(#define\|#modfunc\|#modcfunc\|#const\|#deffunc\|#defcfunc\|#enum\|global\|ctype\|#cfunc\|#func\)', '', 'g' )
     let name = matchstr( name, '\<\S\{-}\>' )
 
     " 関数

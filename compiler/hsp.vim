@@ -15,5 +15,5 @@ if exists( ":CompilerSet" ) != 2
 endif
 
 
-CompilerSet makeprg=wine\ ~/.wine/drive_c/hsp34/hscl.exe\ %\ 2>&1\ 1>output.err;nkf\ -w\ --overwrite\ output.err;tr\ -d\ \'\\r\'\ <output.err
+CompilerSet makeprg=wine\ ~/.wine/drive_c/hsp34/hscl.exe\ %\ 2>&1\ 1>output.err;nkf\ -w\ --overwrite\ output.err;tr\ -d\ \'\\r\'\ <output.err;rm\ output.err
 CompilerSet errorformat=%f\(%l)%*[^0-9]%n\ :\ %m

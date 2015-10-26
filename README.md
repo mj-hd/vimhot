@@ -33,8 +33,16 @@ function FileTypeHsp()
   se omnifunc=hspcomplete#Complete
 endfunction
 
-noremap <F1> :execute "!wine ~/.wine/drive_c/hsp34/hsphelp/helpman.exe" . " " . expand( "<cword>" )<CR>
 noremap <F5> :make<CR>
+```
+
+また，別途OpenBrowserを導入し，`.vimrc`に以下のような設定をすることで，ヘルプを一発で開くことができるようになります．  
+```
+NeoBundle 'open-browser.vim'
+
+~~~中略~~~
+
+noremap <F1> :execute "OpenBrowser http://ohdl.hsproom.me/?q=" . expand( "<cword>" )<CR>
 ```
 
 # テスト環境
